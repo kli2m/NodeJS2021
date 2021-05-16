@@ -16,9 +16,7 @@ router.route('/').get(async (req, res) => {
 
 router.route('/:id').get(async (req, res) => {
   try {
-    console.log(`req.params.id`)
-
-    console.log(req.params)
+  
     const user = await usersService.get(req.params.id);
 
     res.json(User.toResponse(user));
@@ -38,7 +36,7 @@ router.route('/').post(async (req, res) => {
       password: req.body.password
     });  
 
-    res.json(User.toResponse(user))
+    res.status(201).json(User.toResponse(user))
 
   } catch (error) {
     res.status(404).send('Could not create a user');

@@ -14,7 +14,7 @@ const create = async user => {
 const put = async (id, user) => {
   const index = UsersDB.findIndex(currentUser => currentUser.id === id);
    UsersDB.splice(index, 1, { id, 'name': user.name, 'login': user.login, 'password': user.password })
-  return user
+  return UsersDB[index]
 };
 
 const del = async id => {
