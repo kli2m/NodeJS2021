@@ -54,7 +54,7 @@ router.route('/:id').put(async (req, res) => {
 
 router.route('/:id').delete(async (req, res) => {
   try {
-    await usersService.del(req.params.id);
+    usersService.del(req.params.id);
     res.status(204).send('The user has been deleted');
   } catch (error) {
     res.status(404).send(`User id=${req.params.id} not found`);
