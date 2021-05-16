@@ -30,11 +30,11 @@ const del = async id => {
   TasksDB.splice(index, 1)
 };
 
-const setNullByUserId = async userId => TasksDB.map(task=>{
-/* eslint-disable no-param-reassign */
- if( task.userId===userId) task.userId=null;
- /* eslint-enable no-param-reassign */
- return task
+const setNullByUserId = async userId => TasksDB.forEach(task=>{
+  const currTask=task;
+  if(currTask.userId===userId)
+ if( task.userId===userId) currTask.userId=null;
+
 })
 
 const delByBoardId = async boardId => {
