@@ -45,7 +45,6 @@ const put = async (id, user) => {
 
 /**
  * Delete user by id
- * Delete all tasks user by id
  *
  * @param {string} id User id 
  */
