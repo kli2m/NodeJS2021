@@ -11,8 +11,8 @@ const create = async user => usersRepo.create(user)
 const put = async (id, user) => usersRepo.put(id, user);
 
 const del = async id => {
-  taskService.setNullByUserId(id);
-          usersRepo.del(id);
+  taskService.setUserNullByUserId(id);
+  usersRepo.del(id);
 }
 
 module.exports = { getAll, get, create, put, del };
