@@ -36,7 +36,6 @@ const create = async user => usersRepo.create(user)
  * @param {User} user Object User with modified parameters
  * @returns {Promise<User>} Object User 
  */
-
 const put = async (id, user) => usersRepo.put(id, user);
 
 /**
