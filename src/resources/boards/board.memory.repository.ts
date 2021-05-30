@@ -1,14 +1,15 @@
 /** @module BoardMemoryRepository */
 
-const  {BoardsDB}  = require('../../common/myDB');
-const  Board = require('./board.model') 
+import { BoardsDB } from '../../common/myDB';
+import Board from './board.model';
+import { boardGetFuncType, boardCreateFuncType, boardPutFuncType, boardDelFuncType } from './board.types'
 
 /**
  * Returns all boards from the database
  *
  * @returns {Board[]} Array Objects Board
  */
-const getAll = async () => BoardsDB;
+const getAll = async (): Promise<Board[]> => BoardsDB;
 
 /**
  * Returns board for id
@@ -16,7 +17,7 @@ const getAll = async () => BoardsDB;
  * @param {string} id Board id
  * @returns {Board|undefined} Object Board 
  */
-const get = async id => BoardsDB.find(board => board.id === id);
+const get: boardGetFuncType = async id => BoardsDB.find(board => board.id === id);
 
 /**
  * Add new Board to DB
@@ -25,10 +26,10 @@ const get = async id => BoardsDB.find(board => board.id === id);
  * @param {Board} board new Board 
  * @returns {Board} Object Board 
  */
-const create = async board => {
-  const newBoard = new Board(board)
-  BoardsDB.push(newBoard);
- return newBoard
+const create: boardCreateFuncType = async board => {
+    const newBoard = new Board(board)
+    BoardsDB.push(newBoard);
+    return newBoard
 };
 
 /**
@@ -39,10 +40,10 @@ const create = async board => {
  * @param {Board} board Object Board with modified parameters
  * @returns {Board} Object Board 
  */
-const put = async (id, board) =>{
-const index = BoardsDB.findIndex(currentBoard => currentBoard.id === id);
-BoardsDB.splice(index, 1, { id, 'title': board.title, 'columns': board.columns })
-return BoardsDB[index]
+const put: boardPutFuncType = async (id, board) => {
+    const index = BoardsDB.findIndex(currentBoard => currentBoard.id === id);
+    BoardsDB.splice(index, 1, new Board(board))
+    return BoardsDB[index]
 }
 
 /**
@@ -50,9 +51,9 @@ return BoardsDB[index]
  *
  * @param {string} id Board id 
  */
-const del = async id => {
-  const index = BoardsDB.findIndex(currentBoard => currentBoard.id === id);
-  BoardsDB.splice(index, 1)
+const del: boardDelFuncType = async id => {
+    const index = BoardsDB.findIndex(currentBoard => currentBoard.id === id);
+    BoardsDB.splice(index, 1)
 };
 
-module.exports = { getAll, get, create, put, del };
+export default { getAll, get, create, put, del };

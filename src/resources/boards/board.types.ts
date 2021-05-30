@@ -1,49 +1,49 @@
 import Board from "./board.model";
 
-interface Column {
-    id:	string,
-    title:	string,
-    order:	number
-    }
+interface ColumnType {
+    id?: string,
+    title: string,
+    order: number
+}
 
 
 interface boardType {
     id?: string,
     title?: string,
-    columns?: Column[],
+    columns?: ColumnType[],
 }
 
-interface userCreateType {
-    name: string,
-    login: string,
-    password: string
+interface boardCreateType {
+    title?: string,
+    columns?: ColumnType[],
 }
 
 interface RequestsParams {
     id: string
 }
 
-interface userGetFuncType {
-    (id: string): Promise<User | undefined>
+interface boardGetFuncType {
+    (id: string): Promise<Board | undefined>
 }
 
-interface userCreateFuncType {
-    (user: userCreateType): Promise<User | undefined>
+interface boardCreateFuncType {
+    (board: boardCreateType): Promise<Board | undefined>
 }
 
-interface userPutFuncType {
-    (id: string, user: userCreateType): Promise<User | undefined>
+interface boardPutFuncType {
+    (id: string, board: boardCreateType): Promise<Board | undefined>
 }
 
-interface userDelFuncType {
+interface boardDelFuncType {
     (id: string): Promise<void>
 }
 
 export {
-    userType,
+    ColumnType,
+    boardType,
     RequestsParams,
-    userGetFuncType,
-    userCreateFuncType,
-    userPutFuncType,
-    userDelFuncType
+    boardGetFuncType,
+    boardCreateFuncType,
+    boardPutFuncType,
+    boardDelFuncType
 }

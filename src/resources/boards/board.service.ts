@@ -1,8 +1,10 @@
 /** @module BoardService */
 
-const boardsRepo = require('./board.memory.repository');
-const taskService = require('../tasks/task.service');
-const Board = require('./board.model');
+import boardsRepo from './board.memory.repository';
+import Board from './board.model';
+import { boardGetFuncType, boardCreateFuncType, boardPutFuncType, boardDelFuncType } from './board.types'
+
+// import taskService from'../tasks/task.service';
 
 
 /**
@@ -10,7 +12,7 @@ const Board = require('./board.model');
  *
  * @returns {Promise<Board[]>} Array Objects Board
  */
-const getAll = async () =>  boardsRepo.getAll();
+const getAll = async (): Promise<Board[]> => boardsRepo.getAll();
 
 /**
  * Returns board for id
@@ -18,7 +20,7 @@ const getAll = async () =>  boardsRepo.getAll();
  * @param {string} id Board id
  * @returns {Promise<Board>|undefined} Object Board 
  */
-const get = async id =>  boardsRepo.get(id);
+const get: boardGetFuncType = async id => boardsRepo.get(id);
 
 /**
  * Add new Board to DB
@@ -27,7 +29,7 @@ const get = async id =>  boardsRepo.get(id);
  * @param {Board} board new Board 
  * @returns {Promise<Board>} Object Board 
  */
-const create = async board =>  boardsRepo.create(board);
+const create: boardCreateFuncType = async board => boardsRepo.create(board);
 
 
 /**
@@ -38,7 +40,7 @@ const create = async board =>  boardsRepo.create(board);
  * @param {Board} board Object Board with modified parameters
  * @returns {Promise<Board>} Object Board 
  */
-const put = async (id, board) =>  boardsRepo.put(id, board);
+const put: boardPutFuncType = async (id, board) => boardsRepo.put(id, board);
 
 /**
  * Delete Board by id
@@ -46,9 +48,9 @@ const put = async (id, board) =>  boardsRepo.put(id, board);
  *
  * @param {string} id Board id 
  */
-const del = async id => {
-  await taskService.delByBoardId(id);
+const del: boardDelFuncType = async id => {
+  // await taskService.delByBoardId(id);
   await boardsRepo.del(id);
 };
 
-module.exports = { getAll, get, create, put, del };
+export default { getAll, create, get, put, del };
