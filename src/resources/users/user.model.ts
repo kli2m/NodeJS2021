@@ -1,5 +1,5 @@
-const uuid = require('uuid');
-
+import { v4 as uuid } from 'uuid';
+import {userType} from './user.types'
 /**
  * Class User
  *
@@ -9,23 +9,29 @@ const uuid = require('uuid');
  * @property {string} login - login
  * @property {string} password - password
  */
+
+
 class User {
+  id: string;
+  name: string;
+  login: string;
+  password: string;
   constructor({
-    id = uuid.v4(),
+    id = uuid(),
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd'
-  } = {}) {
+  }: userType = {}) {
     this.id = id;
     this.name = name;
     this.login = login;
     this.password = password;
   }
 
-  static toResponse(user) {
-    const { id, name, login } = user;
-    return { id, name, login };
+  static toResponse(user: User ):userType {
+      const { id, name, login } = user;
+      return { id, name, login };
   }
 }
 
-module.exports = User;
+export default User;
