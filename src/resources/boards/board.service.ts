@@ -3,8 +3,7 @@
 import boardsRepo from './board.memory.repository';
 import Board from './board.model';
 import { boardGetFuncType, boardCreateFuncType, boardPutFuncType, boardDelFuncType } from './board.types'
-
-// import taskService from'../tasks/task.service';
+import taskService from'../tasks/task.service';
 
 
 /**
@@ -49,7 +48,7 @@ const put: boardPutFuncType = async (id, board) => boardsRepo.put(id, board);
  * @param {string} id Board id 
  */
 const del: boardDelFuncType = async id => {
-  // await taskService.delByBoardId(id);
+  await taskService.delByBoardId(id);
   await boardsRepo.del(id);
 };
 

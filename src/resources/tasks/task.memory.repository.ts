@@ -1,14 +1,15 @@
 /** @module TaskMemoryRepository */
 
-const Task = require('./task.model');
-const { TasksDB } = require('../../common/myDB')
+import Task from './task.model';
+import { TasksDB } from '../../common/myDB';
+import { taskGetFuncType, taskCreateFuncType, taskPutFuncType, taskDelFuncType, taskGetAllFuncType, taskUserNullByUserId, taskdelByBoardId } from './task.types'
 
 /**
  * Returns all tasks from the database
  *
  * @returns {Task[]} Array Tasks
  */
-const getAll = async () => TasksDB;
+const getAll: taskGetAllFuncType = async (boardId) => TasksDB.filter(task => task.boardId === boardId);
 
 /**
  * Returns task for id
@@ -16,7 +17,7 @@ const getAll = async () => TasksDB;
  * @param {string} id Task id
  * @returns {Task|undefined} Object Task 
  */
-const get = async id => TasksDB.find(task => task.id === id);
+const get: taskGetFuncType = async id => TasksDB.find(task => task.id === id);
 
 
 /**
@@ -26,7 +27,7 @@ const get = async id => TasksDB.find(task => task.id === id);
  * @param {Task} task new Task 
  * @returns {Task} Object Task 
  */
-const create = async task => {
+const create: taskCreateFuncType = async task => {
   const newTask = new Task(task)
   TasksDB.push(newTask);
   return newTask
@@ -40,17 +41,9 @@ const create = async task => {
  * @param {Task} task Object Task with modified parameters
  * @returns {Task} Object Task 
  */
-const put = async (id, task) => {
+const put: taskPutFuncType = async (id, task) => {
   const index = TasksDB.findIndex(currentTask => currentTask.id === id);
-  TasksDB.splice(index, 1, {
-    id,
-    'title': task.title,
-    'order': task.order,
-    'description': task.description,
-    'userId': task.userId,
-    'boardId': task.boardId,
-    'columnId': task.columnId,
-  })
+  TasksDB.splice(index, 1, new Task(task))
   return TasksDB[index]
 };
 
@@ -59,7 +52,7 @@ const put = async (id, task) => {
  *
  * @param {string} id Task id 
  */
-const del = async id => {
+const del: taskDelFuncType = async id => {
   const index = TasksDB.findIndex(currentTask => currentTask.id === id);
   TasksDB.splice(index, 1)
 };
@@ -69,19 +62,21 @@ const del = async id => {
  *
  * @param {string} userId User id 
  */
-const setNullByUserId = async userId =>{ TasksDB.forEach(task => {
-  const currTask = task;
-  if (currTask.userId === userId)
-    if (task.userId === userId) currTask.userId = null;
+const setNullByUserId: taskUserNullByUserId = async userId => {
+  TasksDB.forEach(task => {
+    const currTask = task;
+    if (currTask.userId === userId)
+      if (task.userId === userId) currTask.userId = null;
 
-})}
+  })
+}
 
 /**
  * deletes the task containing the BoardId parameter equal to the incoming id
  *
  * @param {string} boardId Board id 
  */
-const delByBoardId = async boardId => {
+const delByBoardId: taskdelByBoardId = async boardId => {
   const index = TasksDB.findIndex(currentTask => currentTask.boardId === boardId);
   if (index !== -1) {
     TasksDB.splice(index, 1);
@@ -89,7 +84,7 @@ const delByBoardId = async boardId => {
   }
 }
 
-module.exports = {
+export default {
   getAll,
   get,
   create,

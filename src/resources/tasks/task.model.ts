@@ -1,4 +1,5 @@
-const uuid = require('uuid');
+import { v4 as uuid } from 'uuid';
+import { taskType } from './task.types';
 
 /** 
  * Class Task
@@ -13,15 +14,23 @@ const uuid = require('uuid');
  * @property {string} columnId - columnId
  */
 class Task {
+  id?: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string | null;
+  boardId: string | null;
+  columnId: string | null;
+
   constructor({
-    id = uuid.v4(),
-        title= 'title',
-        order= 0,
-        description= 'description',
-        userId= null,
-        boardId= '',
-        columnId= null
-  } = {}) {
+    id = uuid(),
+    title = 'title',
+    order = 0,
+    description = 'description',
+    userId = null,
+    boardId = '',
+    columnId = null
+  }:taskType = {}) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -31,10 +40,10 @@ class Task {
     this.columnId = columnId;
   }
 
-  static toResponse(task) {
-    const { id, title, order,description, userId,boardId,columnId} = task;
-    return { id, title, order,description, userId,boardId,columnId };
+  static toResponse(task:Task):taskType {
+    const { id, title, order, description, userId, boardId, columnId } = task;
+    return { id, title, order, description, userId, boardId, columnId };
   }
 }
 
-module.exports = Task;
+export default Task;

@@ -1,59 +1,70 @@
-const router = require('express').Router({ mergeParams: true });
-const Task = require('./task.model');
-const taskService = require('./task.service');
+import routerExpress, { Request, Response } from 'express'
+import Task from './task.model';
+import taskService from './task.service';
+import { RequestsParams } from './task.types'
 
-router.route('/').get(async (req, res) => {
+const router = routerExpress.Router({ mergeParams: true });
+
+router.route('/').get(async (req: Request<RequestsParams>, res: Response): Promise<void> => { 
   try {
     const { boardId } = req.params;
     const tasks = await taskService.getAll(boardId);
-    res.json(tasks.map(Task.toResponse));
+    if (tasks)  res.json(tasks.map(Task.toResponse));
+    else res.status(404).send('Tasks is not found');
   } catch (error) {
     res.status(404).send('Could not find tasks');
   }
 });
 
-router.route('/:taskId').get(async (req, res) => {
+router.route('/:id').get(async (req: Request<RequestsParams>, res: Response): Promise<void> => {
   try {
-    const task = await taskService.get(req.params.taskId);
-    res.json(Task.toResponse(task));
+    const { id } = req.params
+    const task = await taskService.get(id);
+    if (task) res.status(200).json(Task.toResponse(task));
+    else res.status(404).send('task is not found');
   } catch (error) {
-    res.status(404).send(`Task id=${req.params.taskId} not found`);
+    res.status(404).send(`Task not found`);
   }
 });
 
-router.route('/').post(async (req, res) => {
+router.route('/').post(async (req: Request<RequestsParams>, res: Response): Promise<void> => {
   try {
+    const { boardId } = req.params;
     const task = await taskService.create(
       new Task({
         title: req.body.title,
         order: req.body.order,
         description: req.body.description,
         userId: req.body.userId,
-        boardId: req.params.boardId,
+        boardId: boardId,
         columnId: null
       })
-    );
-    res.status(201).json(Task.toResponse(task));
+    );   
+    if (task)  res.status(201).json(Task.toResponse(task));
+    else res.status(404).send('task not created');
   } catch (error) {
     res.status(404).send('Could not create a task');
   }
 });
 
-router.route('/:taskId').put(async (req, res) => {
+router.route('/:id').put(async (req: Request<RequestsParams>, res: Response): Promise<void> => {
   try {
-    const task = await taskService.put(req.params.taskId, req.body);
-    res.json(Task.toResponse(task));
+    const { id } = req.params
+    const task = await taskService.put(id, req.body);
+    if (task)  res.status(200).json(Task.toResponse(task));
+    else res.status(404).send('task not changed');
   } catch (error) {
-    res.status(404).send(`Task id=${req.params.taskId} not found`);
+    res.status(404).send(`Task not found`);
   }
 });
 
-router.route('/:taskId').delete(async (req, res) => {
+router.route('/:id').delete(async (req: Request<RequestsParams>, res: Response): Promise<void> => {
   try {
-    await taskService.del(req.params.taskId);
-    res.status(204).send(`The Task id=${req.params.taskId} has been deleted`);
+    const { id } = req.params
+    await taskService.del(id);
+    res.status(204).send(`The Task has been deleted`);
   } catch (error) {
-    res.status(404).send(`Task id=${req.params.taskId} not found`);
+    res.status(404).send(`Task not found`);
   }
 });
 

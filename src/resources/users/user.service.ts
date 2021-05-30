@@ -3,7 +3,7 @@
 import usersRepo from './user.memory.repository';
 import User from './user.model';
 import {userGetFuncType,userCreateFuncType,userPutFuncType,userDelFuncType} from './user.types'
-// import taskService from '../tasks/task.service';
+import taskService from '../tasks/task.service';
 // import User from './user.model';
 
 /**
@@ -47,7 +47,7 @@ const put:userPutFuncType = async (id, user) => usersRepo.put(id, user);
  * @param {string} id User id 
  */
 const del:userDelFuncType = async id => {
-//   taskService.setUserNullByUserId(id);
+  taskService.setUserNullByUserId(id);
   usersRepo.del(id);
 }
 
