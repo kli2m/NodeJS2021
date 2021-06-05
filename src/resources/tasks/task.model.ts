@@ -1,5 +1,4 @@
 import { v4 as uuid } from 'uuid';
-import { taskType } from './task.types';
 
 /** 
  * Class Task
@@ -9,17 +8,23 @@ import { taskType } from './task.types';
  * @property {string} title - title
  * @property {number} order - order
  * @property {string} description - description
- * @property {string} userId - userId
- * @property {string} boardId - boardId
- * @property {string} columnId - columnId
+ * @property {string|null} userId - userId
+ * @property {string|null} boardId - boardId
+ * @property {string|null} columnId - columnId
  */
 class Task {
-  id?: string;
+  id: string;
+
   title: string;
+
   order: number;
+
   description: string;
+
   userId: string | null;
+
   boardId: string | null;
+
   columnId: string | null;
 
   constructor({
@@ -28,9 +33,9 @@ class Task {
     order = 0,
     description = 'description',
     userId = null,
-    boardId = '',
+    boardId = null,
     columnId = null
-  }:taskType = {}) {
+  }:TaskType = {}) {
     this.id = id;
     this.title = title;
     this.order = order;
@@ -40,10 +45,63 @@ class Task {
     this.columnId = columnId;
   }
 
-  static toResponse(task:Task):taskType {
+  static toResponse(task: Task): TaskType {
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };
   }
 }
 
-export default Task;
+interface TaskType {
+  id?: string;
+  title?: string;
+  order?: number;
+  description?: string;
+  userId?: string | null;
+  boardId?: string | null;
+  columnId?: string | null;
+}
+
+interface RequestsParams {
+  id: string;
+  boardId: string;
+}
+
+interface TaskGetAllFuncType {
+  (boardId: string): Promise<Task[]>
+}
+
+interface TaskGetFuncType {
+  (id: string): Promise<Task | undefined>
+}
+
+interface TaskCreateFuncType {
+  (task: TaskType): Promise<Task>
+}
+
+interface TaskPutFuncType {
+  (id: string, task: TaskType): Promise<Task | undefined>
+}
+
+interface TaskDelFuncType {
+  (id: string): Promise<void>
+}
+
+interface TaskUserNullByUserId {
+  (userId: string): Promise<void>
+}
+
+interface TaskdelByBoardId {
+  (boardId: string): Promise<void>
+}
+
+export {
+  Task,
+  RequestsParams,
+  TaskGetFuncType,
+  TaskCreateFuncType,
+  TaskPutFuncType,
+  TaskDelFuncType,
+  TaskGetAllFuncType,
+  TaskUserNullByUserId,
+  TaskdelByBoardId
+}

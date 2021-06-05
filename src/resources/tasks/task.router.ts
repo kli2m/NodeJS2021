@@ -1,7 +1,6 @@
 import routerExpress, { Request, Response } from 'express'
-import Task from './task.model';
 import taskService from './task.service';
-import { RequestsParams } from './task.types'
+import {Task, RequestsParams } from './task.model'
 
 const router = routerExpress.Router({ mergeParams: true });
 
@@ -36,7 +35,7 @@ router.route('/').post(async (req: Request<RequestsParams>, res: Response): Prom
         order: req.body.order,
         description: req.body.description,
         userId: req.body.userId,
-        boardId: boardId,
+        boardId,
         columnId: null
       })
     );   

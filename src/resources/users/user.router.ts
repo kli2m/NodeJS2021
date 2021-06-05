@@ -1,7 +1,6 @@
 import routerExpress, { Request, Response } from 'express'
-import User from './user.model';
 import usersService from './user.service';
-import { RequestsParams } from './user.types'
+import {User, RequestsParams } from './user.model'
 
 const router = routerExpress.Router({ mergeParams: true });
 

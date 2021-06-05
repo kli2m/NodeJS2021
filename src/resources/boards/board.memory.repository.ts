@@ -1,8 +1,7 @@
 /** @module BoardMemoryRepository */
 
 import { BoardsDB } from '../../common/myDB';
-import Board from './board.model';
-import { boardGetFuncType, boardCreateFuncType, boardPutFuncType, boardDelFuncType } from './board.types'
+import {Board, BoardGetFuncType, BoardCreateFuncType, BoardPutFuncType, BoardDelFuncType } from './board.model'
 
 /**
  * Returns all boards from the database
@@ -17,7 +16,7 @@ const getAll = async (): Promise<Board[]> => BoardsDB;
  * @param {string} id Board id
  * @returns {Board|undefined} Object Board 
  */
-const get: boardGetFuncType = async id => BoardsDB.find(board => board.id === id);
+const get: BoardGetFuncType = async id => BoardsDB.find(board => board.id === id);
 
 /**
  * Add new Board to DB
@@ -26,7 +25,7 @@ const get: boardGetFuncType = async id => BoardsDB.find(board => board.id === id
  * @param {Board} board new Board 
  * @returns {Board} Object Board 
  */
-const create: boardCreateFuncType = async board => {
+const create: BoardCreateFuncType = async board => {
     const newBoard = new Board(board)
     BoardsDB.push(newBoard);
     return newBoard
@@ -40,7 +39,7 @@ const create: boardCreateFuncType = async board => {
  * @param {Board} board Object Board with modified parameters
  * @returns {Board} Object Board 
  */
-const put: boardPutFuncType = async (id, board) => {
+const put: BoardPutFuncType = async (id, board) => {
     const index = BoardsDB.findIndex(currentBoard => currentBoard.id === id);
     BoardsDB.splice(index, 1, new Board(board))
     return BoardsDB[index]
@@ -51,7 +50,7 @@ const put: boardPutFuncType = async (id, board) => {
  *
  * @param {string} id Board id 
  */
-const del: boardDelFuncType = async id => {
+const del: BoardDelFuncType = async id => {
     const index = BoardsDB.findIndex(currentBoard => currentBoard.id === id);
     BoardsDB.splice(index, 1)
 };

@@ -1,8 +1,7 @@
 /** @module BoardService */
 
 import boardsRepo from './board.memory.repository';
-import Board from './board.model';
-import { boardGetFuncType, boardCreateFuncType, boardPutFuncType, boardDelFuncType } from './board.types'
+import {Board, BoardGetFuncType, BoardCreateFuncType, BoardPutFuncType, BoardDelFuncType } from './board.model'
 import taskService from'../tasks/task.service';
 
 
@@ -19,7 +18,7 @@ const getAll = async (): Promise<Board[]> => boardsRepo.getAll();
  * @param {string} id Board id
  * @returns {Promise<Board>|undefined} Object Board 
  */
-const get: boardGetFuncType = async id => boardsRepo.get(id);
+const get: BoardGetFuncType = async id => boardsRepo.get(id);
 
 /**
  * Add new Board to DB
@@ -28,7 +27,7 @@ const get: boardGetFuncType = async id => boardsRepo.get(id);
  * @param {Board} board new Board 
  * @returns {Promise<Board>} Object Board 
  */
-const create: boardCreateFuncType = async board => boardsRepo.create(board);
+const create: BoardCreateFuncType = async board => boardsRepo.create(board);
 
 
 /**
@@ -39,7 +38,7 @@ const create: boardCreateFuncType = async board => boardsRepo.create(board);
  * @param {Board} board Object Board with modified parameters
  * @returns {Promise<Board>} Object Board 
  */
-const put: boardPutFuncType = async (id, board) => boardsRepo.put(id, board);
+const put: BoardPutFuncType = async (id, board) => boardsRepo.put(id, board);
 
 /**
  * Delete Board by id
@@ -47,7 +46,7 @@ const put: boardPutFuncType = async (id, board) => boardsRepo.put(id, board);
  *
  * @param {string} id Board id 
  */
-const del: boardDelFuncType = async id => {
+const del: BoardDelFuncType = async id => {
   await taskService.delByBoardId(id);
   await boardsRepo.del(id);
 };

@@ -1,8 +1,7 @@
 /** @module UserMemoryRepository */
 
 import { UsersDB } from '../../common/myDB';
-import { userGetFuncType, userCreateFuncType, userPutFuncType, userDelFuncType } from './user.types'
-import User from './user.model';
+import {User, UserGetFuncType, UserCreateFuncType, UserPutFuncType, UserDelFuncType } from './user.model'
 
 /**
  * Returns all users from the database
@@ -17,7 +16,7 @@ const getAll = async ():Promise<User[]> => UsersDB;
  * @param {string} id User id
  * @returns {User|undefined} Object User 
  */
-const get: userGetFuncType = async id => UsersDB.find(user => user.id === id);
+const get: UserGetFuncType = async id => UsersDB.find(user => user.id === id);
 
 /**
  * Create User
@@ -25,7 +24,7 @@ const get: userGetFuncType = async id => UsersDB.find(user => user.id === id);
  * @param {User} user User Data
  * @returns {User} new User
  */
-const create: userCreateFuncType = async user => {
+const create: UserCreateFuncType = async user => {
   const newUser = new User(user)
   UsersDB.push(newUser);
   return newUser
@@ -39,7 +38,7 @@ const create: userCreateFuncType = async user => {
  * @param {User} user Object User with modified parameters
  * @returns {User} Object User 
  */
-const put: userPutFuncType = async (id, user) => {
+const put: UserPutFuncType = async (id, user) => {
   const index = UsersDB.findIndex(currentUser => currentUser.id === id);
   UsersDB.splice(index, 1, { id, 'name': user.name, 'login': user.login, 'password': user.password })
   return UsersDB[index]
@@ -50,7 +49,7 @@ const put: userPutFuncType = async (id, user) => {
  *
  * @param {string} id User id 
  */
-const del: userDelFuncType = async id => {
+const del: UserDelFuncType = async id => {
   const index = UsersDB.findIndex(currentUser => currentUser.id === id);
   UsersDB.splice(index, 1)
 };

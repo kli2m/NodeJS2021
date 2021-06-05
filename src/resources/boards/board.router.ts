@@ -1,7 +1,6 @@
 import routerExpress, { Request, Response } from 'express';
-import Board from './board.model';
 import boardService from './board.service';
-import { RequestsParams } from './board.types'
+import {Board, RequestsParams } from './board.model'
 
 const router = routerExpress.Router({ mergeParams: true });
 
