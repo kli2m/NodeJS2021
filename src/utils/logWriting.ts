@@ -14,11 +14,6 @@ const logWriting = (req: Request, res: Response, next: NextFunction) => {
       query
     )} ${JSON.stringify(params)} ${JSON.stringify(req.body)} ${statusCode}`;
 
-    if (statusCode > 500) {
-      logger.error(strModelView);
-      return;
-    }
-
     if (statusCode > 399) {
       logger.error(strModelView);
       return;

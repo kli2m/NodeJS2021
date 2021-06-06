@@ -17,19 +17,7 @@ const logger = createLogger({
       level: 'info',
       format: format.combine(format.uncolorize())
     })
-  ],
-  // exceptionHandlers: [
-  //   new transports.File({
-  //     level: 'error',
-  //     filename: path.join(__dirname, '../log/exceptions.log')
-  //   })
-  // ],
- 
-  // rejectionHandlers: [
-  //   new transports.File({
-  //     filename: path.join(__dirname, '../log/rejections.log')
-  //   })
-  // ]
+  ]
 });
 
 
