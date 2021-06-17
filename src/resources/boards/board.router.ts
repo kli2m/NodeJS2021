@@ -1,6 +1,6 @@
 import routerExpress, { Request, Response } from 'express';
 import boardService from './board.service';
-import {Board, RequestsParams } from './board.model'
+import { Board, RequestsParams } from './board.model'
 
 const router = routerExpress.Router({ mergeParams: true });
 
@@ -23,7 +23,7 @@ router.route('/:id').get(async (req: Request<RequestsParams>, res: Response): Pr
   } catch (error) {
     res.status(404).send('Could not find a board');
   }
-}); 
+});
 
 router.route('/').post(async (req: Request, res: Response): Promise<void> => {
   try {
